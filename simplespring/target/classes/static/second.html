@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>My Spring Boot Application</title>
+</head>
+
+<body>
+	<input type="text" id="no"><br>
+	<input type="text" id="dept"><br>
+	<input type="text" id="job"><br>
+	<input type="text" id="sal"><br>
+	<input type="text" id="name"><br>
+
+	<button onclick="createEmployee()">Proceed</button>
+
+	<script>
+		function createEmployee() {
+			// Get data from your HTML form or input fields
+			
+			var empData = {
+				empNo: document.getElementById("no").value,
+				name: document.getElementById("name").value,
+				deptNo: document.getElementById("dept").value,
+				salary: document.getElementById("sal").value,
+				job: document.getElementById("name").value
+				
+			};
+			console.log(empData);
+
+			// Create an XMLHttpRequest object
+			var xhr = new XMLHttpRequest();
+
+			// Configure the request
+			xhr.open("POST", "/employees", true); // Replace with the actual URL
+
+			// Set the request header to specify JSON content
+			xhr.setRequestHeader("Content-Type", "application/json");
+
+			// Convert the JavaScript object to a JSON string
+			var jsonData = JSON.stringify(empData);
+			console.log(jsonData);
+
+			// Set up a callback function to handle the response
+			xhr.onreadystatechange = function () {
+				if (xhr.readyState === 4) { // Check if the request is complete
+					if (xhr.status === 201) { // Check if the response status is "Created"
+						alert("Employee is created successfully");
+						// You can perform additional actions here if needed
+					} else {
+						alert("Failed to create employee"); // Handle the error case
+					}
+				}
+			};
+
+			// Send the JSON data as the request body
+			xhr.send(jsonData);
+		}
+
+	</script>
+
+</body>
+
+</html>

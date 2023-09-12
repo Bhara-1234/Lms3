@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>My Spring Boot Application</title>
+</head>
+
+<body>
+	<center>
+		<h1>Employee CRUD</h1><br>
+		<label>Employee No:</label><input type="text" id="no"><br>
+		<label>Name:</label><input type="text" id="name"><br>
+		<label>Department:</label><input type="text" id="dept"><br>
+		<label>Job:</label><input type="text" id="job"><br>
+		<label>Salary:</label><input type="text" id="sal"><br>
+		
+		<br>
+		<button onclick="getEmp()">GetAllEmployees</button>
+		<button onclick="createEmployee()">AddEmployee</button>
+			<button onclick="save()">Save</button>
+<br><br>
+		<table id="list" border="1px">
+			
+		</table>
+
+		<script>
+			function createEmployee() {
+				// Get data from your HTML form or input fields
+
+				var empData = {
+					empNo: document.getElementById("no").value,
+					name: document.getElementById("name").value,
+					deptNo: document.getElementById("dept").value,
+					salary: document.getElementById("sal").value,
+					job: document.getElementById("job").value
+
+				};
+				console.log(empData);
+
+				// Create an XMLHttpRequest object
+				var xhr = new XMLHttpRequest();
+
+				// Configure the request
+				xhr.open("POST", "/employees", true); // Replace with the actual URL
+
+				// Set the request header to specify JSON content
+				xhr.setRequestHeader("Content-Type", "application/json");
+
+				// Convert the JavaScript object to a JSON string
+				var jsonData = JSON.stringify(empData);
+				console.log(jsonData);
+
+				// Set up a callback function to handle the response
+				xhr.onreadystatechange = function () {
+					if (xhr.readyState === 4) { // Check if the request is complete
+						if (xhr.status === 201) { // Check if the response status is "Created"
+							alert("Employee is created successfully");
+							// You can perform additional actions here if needed
+						} else {
+							alert("Failed to create employee"); // Handle the error case
+						}
+					}
+				};
+
+				// Send the JSON data as the request body
+				xhr.send(jsonData);
+				getEmp();
+			}
+			function getEmp() {
+				var a = new XMLHttpRequest();
+				a.open("GET", "/employees", true);
+				a.send();
+				a.onreadystatechange = function () {
+					if (a.readyState === 4) { // Check if the request is complete
+						if (a.status === 200) {
+							var data = JSON.parse(a.responseText);
+							console.log(data);
+						
+
+							// Clear the existing table body
+							 
+							var table= document.getElementById("list");
+							table.innerHTML=``;
+							var tablebody= document.createElement("tbody");
+							var tablehead= document.createElement("thead");
+							var headers= document.createElement("th");
+							var row= document.createElement("tr");
+							var body = document.createElement('tr');
+							var td1 = document.createElement('th');
+							var td2 = document.createElement('th');
+							var td3 = document.createElement('th');
+							var td4 = document.createElement('th');
+							var td5 = document.createElement('th');
+							var td6 = document.createElement('th');
+							var td7 = document.createElement('th');
+							td1.textContent="EmployeeNo";
+							td2.textContent="Department";
+							td3.textContent="Job";
+							td4.textContent="Salary";
+							td5.textContent="Name";
+							td6.textContent="Delete";
+							td7.textContent="Update";
+							row.appendChild(td1);
+							row.appendChild(td2);
+							row.appendChild(td3);
+							row.appendChild(td4);
+							row.appendChild(td5);
+							row.appendChild(td6);
+							row.appendChild(td7);
+							tablehead.appendChild(row);
+							table.append(tablehead);
+							
+						
+							
+				   
+
+							data.forEach(function (x) {
+								console.log(x);
+								var body = document.createElement('tr');
+								var td1 = document.createElement('td');
+								var td2 = document.createElement('td');
+								var td3 = document.createElement('td');
+								var td4 = document.createElement('td');
+								var td5 = document.createElement('td');
+								var td6 = document.createElement('td');
+								var td7 = document.createElement('button');
+								var td8 = document.createElement('button')
+								var td9 = document.createElement('td');
+								td1.textContent = x.empNo;
+								td2.textContent = x.deptNo;
+								td3.textContent = x.job;
+								td4.textContent = x.salary;
+								td5.textContent = x.name;
+								td7.textContent = "Delete";
+								td7.onclick = function () {
+
+									deleteEmp(x.empNo);
+								};
+								td8.textContent = "Update";
+								td8.onclick = function () {
+
+									updateEmp(x);
+								};
+
+								// Append the button to the table cell
+								td6.appendChild(td7);
+								td9.appendChild(td8);
+								body.appendChild(td1);
+
+								body.appendChild(td2);
+								body.appendChild(td3);
+								body.appendChild(td4);
+								body.appendChild(td5);
+								body.appendChild(td6);
+								body.appendChild(td9);
+								tablebody.appendChild(body);
+								
+							});
+							table.append(tablebody);
+						}
+					}
+				}
+			}
+			function deleteEmp(id) {
+				var a = new XMLHttpRequest();
+				a.open("DELETE", "/employees/" + id, true);
+				a.send();
+				a.onreadystatechange = function () {
+					if (a.readyState === 4) { // Check if the request is complete
+						if (a.status === 200) {
+							alert("deleted");
+						}
+					}
+				}
+				getEmp();
+			}
+
+			function updateEmp(x) {
+
+				document.getElementById("no").value = x.empNo;
+				document.getElementById("dept").value = x.deptNo;
+				document.getElementById("job").value = x.job;
+				document.getElementById("sal").value = x.salary;
+				document.getElementById("name").value = x.name;
+
+			}
+			
+			
+			
+			
+			
+			
+			
+			function save() {
+				// Get data from your HTML form or input fields
+				var empNo= document.getElementById("no").value;
+
+				var empData = {
+					empNo: document.getElementById("no").value,
+					name: document.getElementById("name").value,
+					deptNo: document.getElementById("dept").value,
+					salary: document.getElementById("sal").value,
+					job: document.getElementById("job").value
+
+				};
+				console.log(empData);
+
+				// Create an XMLHttpRequest object
+				var xhr = new XMLHttpRequest();
+
+				// Configure the request
+				xhr.open("PUT", "/employees/"+empNo, true); // Replace with the actual URL
+
+				// Set the request header to specify JSON content
+				xhr.setRequestHeader("Content-Type", "application/json");
+
+				// Convert the JavaScript object to a JSON string
+				var jsonData = JSON.stringify(empData);
+				console.log(jsonData);
+
+				// Set up a callback function to handle the response
+				xhr.onreadystatechange = function () {
+					if (xhr.readyState === 4) { // Check if the request is complete
+						if (xhr.status === 200) { // Check if the response status is "Created"
+							alert("Employee is UPdated successfully");
+							// You can perform additional actions here if needed
+						} else {
+							alert("Failed to UPdate employee"); // Handle the error case
+						}
+					}
+				};
+
+				// Send the JSON data as the request body
+				xhr.send(jsonData);
+				getEmp();
+			}
+
+		</script>
+	</center>
+</body>
+
+</html>
