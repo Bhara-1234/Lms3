@@ -1,0 +1,54 @@
+select * from bb_publisher
+
+create table bb_publisher(publisherid serial primary key,publishername varchar(255));
+INSERT INTO bb_publisher (publishername)
+VALUES
+    ('Publisher 1'),
+    ('Publisher 2'),
+    ('Publisher 3'),
+    ('Publisher 4'),
+    ('Publisher 5'),
+    ('Publisher 6'),
+    ('Publisher 7'),
+    ('Publisher 8'),
+    ('Publisher 9'),
+    ('Publisher 10');
+
+
+
+
+=====================================================================
+
+
+
+create table bb_book ( bookid serial primary key,publisherid int ,isbnnumber varchar,price int ,pages int);
+INSERT INTO bb_book (publisherid, isbnnumber, price, pages)
+VALUES
+    (1, 'ISBN-001', 20, 300),
+    (1, 'ISBN-002', 25, 350),
+    (1, 'ISBN-003', 30, 400),
+    (2, 'ISBN-004', 18, 250),
+    (2, 'ISBN-005', 22, 320),
+    (2, 'ISBN-006', 28, 380),
+    (3, 'ISBN-007', 19, 270),
+    (3, 'ISBN-008', 24, 330),
+    (3, 'ISBN-009', 29, 390),
+    (4, 'ISBN-010', 21, 290),
+    (4, 'ISBN-011', 26, 340),
+    (4, 'ISBN-012', 31, 410),
+    (5, 'ISBN-013', 23, 310),
+    (5, 'ISBN-014', 27, 370),
+    (5, 'ISBN-015', 32, 420),
+    (6, 'ISBN-016', 22, 320),
+    (6, 'ISBN-017', 26, 360),
+    (6, 'ISBN-018', 33, 430),
+    (7, 'ISBN-019', 20, 300),
+    (7, 'ISBN-020', 25, 350),
+    (7, 'ISBN-021', 30, 400),
+    (8, 'ISBN-022', 18, 250),
+    (8, 'ISBN-023', 22, 320),
+    (8, 'ISBN-024', 28, 380),
+    (9, 'ISBN-025', 19, 270),
+    (9, 'ISBN-026', 24, 330),
+    (9, 'ISBN-027', 29, 390),
+    (10, 'ISBN-028', 21, 290);
